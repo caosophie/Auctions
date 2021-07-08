@@ -1,0 +1,47 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <img src="{{ activelisting.image }}">
+    </div>
+    <div class="col">
+        <p id="title">{{ activelisting.name }}<p>
+        Posted by <b>{{ activelisting.user }}</b> &nbsp;&#8226;&nbsp;
+        {{ activelisting.category }} &nbsp;&#8226;&nbsp;
+        {{ status }}
+        {% if activelisting.user == request.user and activelisting.status == False %}
+        &nbsp;&#8226;&nbsp;
+            <a href="{% url 'closingbid' activelisting.id %}" style="color: black; text-decoration: underline;">Close bid</a>
+        {% endif %}
+        
+        <p style="color: blue; font-weight: bold;">{{ message }}</p>
+
+        <div class="description">
+            {{ activelisting.description }} 
+        </div>
+        <p><b>Current bid :</b> ${{ activelisting.bid }}</p>
+        <form action="{% url 'activelisting' activelisting.id %}" method="POST" name="bid" id="bidform">
+            {% csrf_token %}
+            {{ bidform.bid}}
+            <input type="submit" class="btn btn-light btn-sm" value="Submit">
+        </form>
+        <br><br>
+        <p style="margin-bottom: 5px;"><u><b>Comments</b></u></p>
+        <div class="comments">
+            {% for comment in comments %}
+                <b>{{ comment.user }} left a comment :</b> {{ comment }}<br>
+            {% endfor %}
+        </div>
+        <form action="{% url 'activelisting' activelisting.id %}" method="POST" name="comment" id="commentform">
+            {% csrf_token %}
+            {{ form.comm }}
+            {{ form.user }}
+            <input type="submit" class="btn btn-light btn-sm" value="Submit">
+        </form>
+        <a href="{% url 'watching' activelisting.id %}" style="text-decoration: none; color: black;">
+        <button type="button" class="btn btn-dark btn-lg btn-block" style="margin-top: 50px;">Add to watchlist</button>
+        </a>
+    </div>
+</div>
+{% endblock %}

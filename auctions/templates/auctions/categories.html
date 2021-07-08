@@ -1,0 +1,16 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+<div class="ActiveListings">
+    <p>Categories</p>
+    {% for category in categories %}
+    <a href="{% url 'ea_category' category.id %}" style="color:black">
+        <div class="category_type" style="background-image: url('{{ category.img_type }}');">
+            <div class="category_name">
+                <p>{{ category.type }}</p>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

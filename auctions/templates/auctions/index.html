@@ -1,0 +1,35 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="ActiveListings">
+    <p>Active Listings</p>
+    {% for activelisting in activelisting %}
+    <a href="{% url 'activelisting' activelisting.id %}" style="color: black; text-decoration: none;">
+        <div class="listing">
+            <div class="categories">
+                <span class="category">{{ activelisting.category }}</strong></span>
+                {% if activelisting.status == True %}
+                    <span class="category">Closed</strong></span>
+                {% else %}
+                    <span class="category">Open</strong></span>
+                {% endif %}
+            </div>
+            <div class="img">
+                <img src="{{ activelisting.image }}">
+            </div>
+            <div class="listing-info">
+                <span class="listing-name"><strong>{{ activelisting.name }}</strong></span><br>
+                <span class="listing-description">{{ activelisting.description }}</span><br><br>
+                <span class="listing-user">Posted by <strong>{{ activelisting.user }}</strong></span>
+            </div>
+            <div class="add-to-wishlist">
+                <p>${{ activelisting.bid }}</p>
+                <a href="{% url 'watching' activelisting.id %}" style="text-decoration: none; color: black;">
+                    <p style="float: left;">{{ activelisting.watching }}</p>
+                </a>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}
